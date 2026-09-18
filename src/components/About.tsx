@@ -18,6 +18,8 @@ export default function About() {
       {/* Scrim: keeps the text readable and crops the CapCut watermark (top-left) out of view */}
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/10" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/40" />
+      {/* Bottom fade: blends the video into the solid black of the next section */}
+      <div className="absolute inset-x-0 bottom-0 h-40 sm:h-56 bg-gradient-to-b from-transparent to-black" />
 
       <SectionWrapper id="about">
         <SectionHeading kicker="Introduction" title="About Me." size="compact" gradient="violet" />
