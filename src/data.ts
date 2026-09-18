@@ -1,6 +1,6 @@
-import jnj from "@/assets/images/jnj.png";
-import diageo from "@/assets/images/diageo.png";
-import pwc from "@/assets/images/pwc.png";
+import jnj from "@/assets/logos/jnj.svg";
+import diageo from "@/assets/logos/diageo.svg";
+import pwc from "@/assets/logos/pwc.svg";
 
 export const workCategories = [
   {

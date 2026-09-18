@@ -23,10 +23,8 @@ function AwardCard({
   return (
     <motion.div variants={fadeIn("up", "spring", index * 0.4, 0.75)}>
       <Card className="bg-white/5 border-white/10 p-4 rounded-2xl h-full">
-        <div className="relative w-full h-[120px] bg-muted rounded-xl flex justify-center items-center">
-          <div className="bg-white rounded-xl p-3 flex justify-center items-center">
-            <img src={image} alt={name} className="max-w-[100px] max-h-[80px] object-contain" />
-          </div>
+        <div className="w-full h-[132px] bg-white rounded-xl flex justify-center items-center p-7">
+          <img src={image} alt={name} className="max-w-full max-h-full object-contain" />
         </div>
         <div className="mt-4">
           <h3 className="text-foreground font-bold text-[16px] leading-snug">{name}</h3>
