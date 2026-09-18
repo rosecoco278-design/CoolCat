@@ -27,27 +27,29 @@ export default function About() {
           className="mt-4 max-w-xl space-y-5 text-gray-400 text-[17px] leading-[30px]"
         >
           <p>
-            I'm a Finance and Strategy professional with extensive experience in FP&amp;A,
-            business partnering, strategic planning, and business transformation. I enjoy
-            turning complex financial and operational challenges into practical, data-driven
-            solutions by combining finance expertise with AI, analytics, and technology.
+            I'm a Finance &amp; Strategy professional with extensive experience turning complex
+            business challenges into{" "}
+            <strong className="text-foreground font-semibold">
+              clear strategies, practical solutions, and measurable outcomes
+            </strong>
+            . My work sits at the intersection of{" "}
+            <strong className="text-foreground font-semibold">
+              finance, strategy, technology, and transformation
+            </strong>
+            , where I bring together commercial thinking, data, and technology to solve problems
+            and create value.
           </p>
           <p>
-            Beyond the numbers, I'm an old romantic soul who loves art and creativity. I'm
-            naturally more introverted, but I can become quite the extrovert when I'm
-            surrounded by people who are passionate about their vision, projects, and business
-            insights.
+            I'm also a <strong className="text-foreground font-semibold">creative at heart</strong>,
+            with a deep appreciation for art, design, and unconventional ideas. I'm energised by
+            solving business problems, exploring possibilities, and turning ideas into something
+            tangible.
           </p>
           <p>
-            I'm also nearing the end of my MBA journey with NUS Business School and currently
-            exploring the possibilities of AI through hands-on experiments and building things
-            with AI.
+            <strong className="text-foreground font-semibold">
+              This website was created by me and my AI partner.
+            </strong>
           </p>
-          <p>
-            Always happy to connect, exchange ideas, collaborate, and build something
-            meaningful together.
-          </p>
-          <p>Cheers!</p>
         </motion.div>
       </SectionWrapper>
     </div>
