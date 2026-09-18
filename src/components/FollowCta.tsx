@@ -12,12 +12,20 @@ export default function FollowCta() {
           Follow along for more insights on finance, strategy, and AI
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
-          <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600 text-white">
+          <Button
+            asChild
+            size="lg"
+            className="bg-orange-500 hover:bg-orange-600 text-white min-w-[230px]"
+          >
             <a href={socials.substack} target="_blank" rel="noopener noreferrer">
               Subscribe on Substack
             </a>
           </Button>
-          <Button asChild size="lg" className="bg-blue-700 hover:bg-blue-800 text-white">
+          <Button
+            asChild
+            size="lg"
+            className="bg-blue-700 hover:bg-blue-800 text-white min-w-[230px]"
+          >
             <a href={socials.linkedin} target="_blank" rel="noopener noreferrer">
               Follow on LinkedIn
             </a>
