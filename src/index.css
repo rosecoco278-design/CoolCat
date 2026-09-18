@@ -132,6 +132,6 @@
 .hash-span {
   display: block;
   height: 0;
-  margin-top: -88px;
+  scroll-margin-top: 88px;
   visibility: hidden;
 }
