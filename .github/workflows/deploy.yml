@@ -4,9 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # Rebuild daily so new Substack posts show up without a push
-  schedule:
-    - cron: "0 0 * * *"
+  # No schedule: Substack blocks GitHub's servers, so new posts arrive via
+  # scripts/sync-substack.ps1 (daily task on the laptop), whose push triggers this deploy.
 
 permissions:
   contents: read
