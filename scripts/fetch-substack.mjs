@@ -38,11 +38,25 @@ function stripHtml(html) {
 
 async function main() {
   console.log(`Fetching ${FEED_URL} ...`);
-  const res = await fetch(FEED_URL);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch Substack feed: ${res.status} ${res.statusText}`);
+  let xml;
+  try {
+    const res = await fetch(FEED_URL, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; CoolCatSiteBuilder/1.0; +https://rosecoco278-design.github.io/CoolCat/)",
+        Accept: "application/rss+xml, application/xml;q=0.9, */*;q=0.8",
+      },
+    });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    xml = await res.text();
+  } catch (err) {
+    // Don't fail the deploy if Substack is unreachable (it can block CI servers);
+    // keep the last committed posts instead.
+    if (fs.existsSync(OUT_PATH)) {
+      console.warn(`::warning::Could not fetch Substack feed (${err.message}); keeping existing ${OUT_PATH}`);
+      return;
+    }
+    throw err;
   }
-  const xml = await res.text();
 
   const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });
   const feed = parser.parse(xml);
