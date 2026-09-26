@@ -7,14 +7,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FEED_URL = "https://rose270883.substack.com/feed";
 const OUT_PATH = path.join(__dirname, "..", "src", "data", "substack-posts.json");
 
-// category id -> hashtags/section names that map to it (matched case-insensitively,
-// against the post's Substack tags/categories and, as a fallback, its title+body text)
+// category id -> tag names that map to it. A post matches if one of its Substack
+// categories equals a name, or its title/subtitle/body contains the name as a hashtag
+// (e.g. "#AI Experiment", "#aiexperiment"). Case, spaces, "-" and "_" are ignored.
 const CATEGORY_MATCHERS = {
-  strategy: ["strategy", "#strategy"],
-  finance: ["finance", "#finance"],
-  "ai-experiment": ["ai experiment", "aiexperiment", "#aiexperiment", "#ai-experiment"],
-  "my-art": ["my art", "myart", "#myart", "#my-art"],
-  "free-resources": ["free resources", "freeresources", "#freeresources", "#free-resources"],
+  strategy: ["strategy"],
+  finance: ["finance"],
+  "ai-experiment": ["ai experiment"],
+  "my-art": ["my art"],
+  "free-resources": ["free resources"],
 };
 
 function normalize(s) {
@@ -60,7 +61,8 @@ async function main() {
     const tags = item.category
       ? (Array.isArray(item.category) ? item.category : [item.category]).map(String)
       : [];
-    const haystack = normalize([...tags, item.title, description].join(" "));
+    const normalizedTags = tags.map(normalize);
+    const text = normalize([item.title, item.description, stripHtml(contentHtml)].join(" "));
 
     const post = {
       title: String(item.title),
@@ -72,7 +74,9 @@ async function main() {
     };
 
     for (const [categoryId, matchers] of Object.entries(CATEGORY_MATCHERS)) {
-      const isMatch = matchers.some((m) => haystack.includes(normalize(m)));
+      const isMatch = matchers.some(
+        (m) => normalizedTags.includes(normalize(m)) || text.includes(`#${normalize(m)}`),
+      );
       if (isMatch) byCategory[categoryId].push(post);
     }
   }
