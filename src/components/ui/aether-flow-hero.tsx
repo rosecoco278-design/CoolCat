@@ -37,7 +37,7 @@ export default function AetherFlowHero({
   return (
     <div
       className={cn(
-        "relative w-full flex flex-col items-center justify-center overflow-hidden bg-black",
+        "relative w-full flex flex-col items-center justify-center overflow-hidden bg-background",
         compact ? "pt-10 pb-4 sm:pt-12 sm:pb-6" : "h-screen",
       )}
     >

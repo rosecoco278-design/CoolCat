@@ -23,7 +23,7 @@ function AwardCard({
   return (
     <motion.div variants={fadeIn("up", "spring", index * 0.4, 0.75)}>
       <Card className="bg-white/5 border-white/10 p-4 rounded-2xl h-full">
-        <div className="w-full h-[132px] bg-white rounded-xl flex justify-center items-center p-7">
+        <div className="w-full h-[132px] bg-neutral-200 rounded-xl flex justify-center items-center p-7 shadow-[inset_0_0_18px_2px_rgba(0,0,0,0.08),0_0_14px_-4px_rgba(255,255,255,0.06)]">
           <img src={image} alt={name} className="max-w-full max-h-full object-contain" />
         </div>
         <div className="mt-4">
@@ -48,7 +48,7 @@ function AwardCard({
 
 export default function Awards() {
   return (
-    <section className="relative bg-black overflow-hidden">
+    <section className="relative bg-background overflow-hidden">
       <ParticleBackground className="-z-10" />
       <SectionWrapper id="awards">
         <SectionHeading kicker="Achievements" title="Awards & Recognition." />

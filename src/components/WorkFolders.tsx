@@ -76,7 +76,7 @@ export default function WorkFolders({
   const activeCategory = folderCategories.find((c) => c.id === activeTab);
 
   return (
-    <section id="work-folders" className="relative bg-black py-20 sm:py-28">
+    <section id="work-folders" className="relative bg-background py-20 sm:py-28">
       <ParticleBackground className="-z-10" />
       <SectionWrapper id="work-folders-content">
         <SectionHeading kicker="Work" title="Browse by Topic" />

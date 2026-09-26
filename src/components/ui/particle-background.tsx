@@ -172,7 +172,7 @@ export default function ParticleBackground({ className }: { className?: string }
   }, []);
 
   return (
-    <div ref={containerRef} className={cn("absolute inset-0 overflow-hidden bg-black", className)}>
+    <div ref={containerRef} className={cn("absolute inset-0 overflow-hidden bg-background", className)}>
       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
     </div>
   );

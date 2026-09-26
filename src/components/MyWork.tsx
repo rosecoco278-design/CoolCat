@@ -28,7 +28,7 @@ export default function MyWork({ onSelectCategory }: { onSelectCategory: (id: st
         subtitle="Six spaces for the different things I build, think about, and share — click any of them below to dive in."
       />
 
-      <div className="relative bg-black pb-20 sm:pb-24 px-6 sm:px-16">
+      <div className="relative bg-background pb-20 sm:pb-24 px-6 sm:px-16">
         <div className="max-w-7xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {workCategories.map((category, index) => (
             <motion.button

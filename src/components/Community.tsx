@@ -29,7 +29,7 @@ const placeholderTestimonials = [
 
 export default function Community() {
   return (
-    <section id="community" className="relative bg-black py-20 sm:py-28 overflow-hidden">
+    <section id="community" className="relative bg-background py-20 sm:py-28 overflow-hidden">
       <ParticleBackground className="-z-10" />
       <SectionWrapper id="community-content">
         <SectionHeading kicker="Work" title="Community" align="center" />
