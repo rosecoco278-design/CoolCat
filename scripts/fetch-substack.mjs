@@ -5,6 +5,9 @@ import { XMLParser } from "fast-xml-parser";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FEED_URL = "https://rose270883.substack.com/feed";
+// The RSS <description> is the post's SEO description, not its subtitle, so a hashtag
+// added to the subtitle never reaches the feed. The archive API has the real subtitle.
+const ARCHIVE_URL = "https://rose270883.substack.com/api/v1/archive?sort=new&limit=50";
 const OUT_PATH = path.join(__dirname, "..", "src", "data", "substack-posts.json");
 
 // category id -> tag names that map to it. A post matches if one of its Substack
@@ -36,6 +39,19 @@ function stripHtml(html) {
     .trim();
 }
 
+// post URL -> subtitle. Optional: if the API fails, matching falls back to the feed alone.
+async function fetchSubtitles() {
+  try {
+    const res = await fetch(ARCHIVE_URL, { headers: { "User-Agent": "Mozilla/5.0" } });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    const posts = await res.json();
+    return new Map(posts.map((p) => [p.canonical_url, p.subtitle ?? ""]));
+  } catch (err) {
+    console.warn(`::warning::Substack subtitle lookup failed (${err.message}); using the feed only`);
+    return new Map();
+  }
+}
+
 async function main() {
   console.log(`Fetching ${FEED_URL} ...`);
   let xml;
@@ -63,7 +79,9 @@ async function main() {
   const rawItems = feed?.rss?.channel?.item ?? [];
   const items = Array.isArray(rawItems) ? rawItems : [rawItems];
 
+  const subtitles = await fetchSubtitles();
   const byCategory = Object.fromEntries(Object.keys(CATEGORY_MATCHERS).map((k) => [k, []]));
+  const untagged = [];
 
   for (const item of items) {
     if (!item?.title) continue;
@@ -76,7 +94,8 @@ async function main() {
       ? (Array.isArray(item.category) ? item.category : [item.category]).map(String)
       : [];
     const normalizedTags = tags.map(normalize);
-    const text = normalize([item.title, item.description, stripHtml(contentHtml)].join(" "));
+    const subtitle = subtitles.get(String(item.link ?? "")) ?? "";
+    const text = normalize([item.title, subtitle, item.description, stripHtml(contentHtml)].join(" "));
 
     const post = {
       title: String(item.title),
@@ -93,6 +112,7 @@ async function main() {
       );
       if (isMatch) byCategory[categoryId].push(post);
     }
+    if (!Object.values(byCategory).some((list) => list.includes(post))) untagged.push(post.title);
   }
 
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
@@ -104,6 +124,7 @@ async function main() {
   console.log(`Wrote ${OUT_PATH}`);
   console.log(`Post counts — ${counts}`);
   console.log(`Total items in feed: ${items.length}`);
+  if (untagged.length) console.log(`No folder hashtag: ${untagged.join(" | ")}`);
 }
 
 main().catch((err) => {

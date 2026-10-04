@@ -22,8 +22,10 @@ try {
   if ($LASTEXITCODE -ne 0) { throw "fetch failed: $out" }
   if ($out -match "Could not fetch") { Log "Feed unreachable, nothing changed. $($out.Trim())"; exit 0 }
 
+  $untagged = $out -split "`n" | Select-String "No folder hashtag" | ForEach-Object { " $($_.ToString().Trim())" }
+
   & $git diff --quiet -- $dataFile
-  if ($LASTEXITCODE -eq 0) { Log "No new posts."; exit 0 }
+  if ($LASTEXITCODE -eq 0) { Log "No new posts.$untagged"; exit 0 }
 
   # Commit only the posts file so any in-progress edits stay local
   & $git commit -q -m "Update Substack posts" -- $dataFile
@@ -32,7 +34,7 @@ try {
   if ($LASTEXITCODE -ne 0) { throw "git push failed (run 'git pull' in site/ and retry)" }
 
   $counts = ($out -split "`n" | Select-String "Post counts").ToString().Trim()
-  Log "Pushed new posts. $counts"
+  Log "Pushed new posts. $counts$untagged"
 }
 catch {
   Log "ERROR: $($_.Exception.Message)"
