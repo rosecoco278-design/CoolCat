@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from "react";
+import { lazy, Suspense, useRef, useState, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
@@ -9,7 +9,9 @@ import { Button } from "@/components/ui/button";
 import SectionWrapper from "@/components/SectionWrapper";
 import SectionHeading from "@/components/SectionHeading";
 import { fadeIn } from "@/lib/motion";
-import PlanetCanvas from "@/components/Planet";
+
+// three.js is large; load the 3D planet separately so it doesn't block first paint
+const PlanetCanvas = lazy(() => import("@/components/Planet"));
 
 const EMAILJS_PUBLIC_KEY = "8hYof8kJYVV4O_0P9";
 const EMAILJS_SERVICE_ID = "service_86uro5f";
@@ -110,7 +112,9 @@ export default function Contact() {
           variants={fadeIn("right", "tween", 0.2, 1)}
           className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
         >
-          <PlanetCanvas />
+          <Suspense fallback={null}>
+            <PlanetCanvas />
+          </Suspense>
         </motion.div>
       </div>
     </SectionWrapper>

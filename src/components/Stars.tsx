@@ -6,7 +6,7 @@ import * as random from "maath/random";
 function StarField(props: Record<string, unknown>) {
   const ref = useRef<any>(null);
   const [sphere] = useState(
-    () => random.inSphere(new Float32Array(5000), { radius: 1.2 }) as unknown as Float32Array,
+    () => random.inSphere(new Float32Array(5001), { radius: 1.2 }) as unknown as Float32Array,
   );
 
   useFrame((_state, delta) => {

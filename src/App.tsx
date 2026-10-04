@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import LiquidMetalHero from "@/components/ui/liquid-metal-hero";
 import About from "@/components/About";
 import Awards from "@/components/Awards";
 import Contact from "@/components/Contact";
-import StarsCanvas from "@/components/Stars";
 import MyWork from "@/components/MyWork";
 import WorkFolders from "@/components/WorkFolders";
 import Community from "@/components/Community";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FollowCta from "@/components/FollowCta";
 import { workCategories } from "@/data";
+
+// three.js is large; load the star field separately so it doesn't block first paint
+const StarsCanvas = lazy(() => import("@/components/Stars"));
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -51,7 +53,9 @@ function App() {
 
       <div className="relative z-0">
         <Contact />
-        <StarsCanvas />
+        <Suspense fallback={null}>
+          <StarsCanvas />
+        </Suspense>
       </div>
     </div>
   );

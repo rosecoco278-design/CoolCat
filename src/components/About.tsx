@@ -1,13 +1,26 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import SectionWrapper from "@/components/SectionWrapper";
 import SectionHeading from "@/components/SectionHeading";
 import { fadeIn } from "@/lib/motion";
 
 export default function About() {
+  // Only fetch the video once the section scrolls into view; the poster shows until then
+  const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const inView = useInView(ref, { once: true });
+
+  // autoPlay doesn't reliably fire when src is added after mount, so start it explicitly
+  useEffect(() => {
+    if (inView) videoRef.current?.play().catch(() => {});
+  }, [inView]);
+
   return (
-    <div className="relative overflow-hidden">
+    <div ref={ref} className="relative overflow-hidden">
       <video
-        src={`${import.meta.env.BASE_URL}video/nhi-about-2.mp4`}
+        ref={videoRef}
+        src={inView ? `${import.meta.env.BASE_URL}video/nhi-about-2.mp4` : undefined}
+        poster={`${import.meta.env.BASE_URL}video/nhi-about-poster.jpg`}
         autoPlay
         muted
         loop
